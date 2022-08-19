@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class RegisterScreen {
     @Composable
-    fun RegisterScreen() {
+    fun RegisterScreen(onBack: () -> Unit) {
         val scaffoldStateRegister = rememberScaffoldState()
         var textFieldStateFName by remember {
             mutableStateOf("")
@@ -110,12 +110,18 @@ class RegisterScreen {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Button(onClick = {
-                    scope.launch {
-                        scaffoldStateRegister.snackbarHostState.showSnackbar("Button Clicked $textFieldStatePassword")
+                Row {
+                    Button(onClick = {
+                        scope.launch {
+                            scaffoldStateRegister.snackbarHostState.showSnackbar("Button Clicked $textFieldStatePassword")
+                        }
+                    }) {
+                        Text("Register")
                     }
-                }){
-                    Text("Register")
+
+                    Button(onClick = onBack) {
+                        Text(text = "Back")
+                    }
                 }
             }
         }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class LoginScreen {
     @Composable
-    fun LoginScreen() {
+    fun LoginScreen(onBack: () -> Unit) {
         val scaffoldState = rememberScaffoldState()
         val scope = rememberCoroutineScope()
         var textFieldStateEmail by remember {
@@ -23,50 +23,55 @@ class LoginScreen {
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            scaffoldState = scaffoldState
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp)
-            ) {
-                TextField(
-                    value = textFieldStateEmail,
-                    label = {
-                        Text("Enter your Email")
-                    },
-                    onValueChange = {
-                        textFieldStateEmail = it
-                    },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
+            scaffoldState = scaffoldState,
+            content = {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp)
+                ) {
+                    TextField(
+                        value = textFieldStateEmail,
+                        label = {
+                            Text("Enter your Email")
+                        },
+                        onValueChange = {
+                            textFieldStateEmail = it
+                        },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                TextField(
-                    value = textFieldStatePassword,
-                    label = {
-                        Text("Enter your Password")
-                    },
-                    onValueChange = {
-                        textFieldStatePassword = it
-                    },
-                    visualTransformation = PasswordVisualTransformation(), // Enable password input type by showing dots for password security
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                    TextField(
+                        value = textFieldStatePassword,
+                        label = {
+                            Text("Enter your Password")
+                        },
+                        onValueChange = {
+                            textFieldStatePassword = it
+                        },
+                        visualTransformation = PasswordVisualTransformation(), // Enable password input type by showing dots for password security
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                Button(onClick = {
-                    scope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar("Button Clicked $textFieldStateEmail")
+                    Button(onClick = {
+                        scope.launch {
+                            scaffoldState.snackbarHostState.showSnackbar("Button Clicked $textFieldStateEmail")
+                        }
+                    }) {
+                        Text("Login")
                     }
-                }) {
-                    Text("Login")
+
+                    Button(onClick = onBack) {
+                        Text(text = "Back")
+                    }
                 }
             }
-        }
+        )
     }
 }
